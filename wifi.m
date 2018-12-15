@@ -32,6 +32,10 @@ msize = numel(M);
 aps = M(randperm(msize, max_ap_number)); %choose random # access points
 apmask = ismember( M, aps );
 
+msize1 = numel(M);
+bps = M(randperm(msize1, max_ble_number)); %choose random # ble beacon points
+bpmask = ismember( M, bps );
+
 msize2 = numel(M);
 tps = M(randperm(msize2, max_tp_number)); %choose random # test points
 tpmask2 = ismember( M, tps );
@@ -83,21 +87,21 @@ textX = textX+2;
 #}
 
 % each row of FingerprintMatrix will be a fingerprint value of related test point. 
-FingerprintMatrix = zeros(max_tp_number, max_ap_number);
-FingerprintMatrix_wnoise = zeros(max_tp_number, max_ap_number);
+FingerprintMatrix = zeros(max_tp_number, max_ap_number + max_ble_number);
+FingerprintMatrix_wnoise = zeros(max_tp_number, max_ap_number + max_ble_number);
 
 for i=1:max_tp_number
   randomTPValue = tps(i);
   [TProw, TPcolumn]=find(M == randomTPValue);
   
-  [fp, fp_wn] = calculate_fingerprint(M, aps, TProw, TPcolumn, wifi_n, wifi_Pd0, sigma);
+  [fp, fp_wn] = calculate_fingerprint(M, aps, bps, TProw, TPcolumn, wifi_n, ble_n, wifi_Pd0, ble_Pd0, sigma);
   FingerprintMatrix(i,:) = fp;
   FingerprintMatrix_wnoise(i,:) = fp_wn;
 end
 
 
-disp(FingerprintMatrix)
-disp("FingerPrint Matrix With Noise")
+% disp(FingerprintMatrix)
+disp("Calculated FingerPrinting Matrix With Noise: ")
 disp(FingerprintMatrix_wnoise)
 
 #{

@@ -22,9 +22,9 @@
 ## Author: tuna <tuna@tuna-LIFEBOOK-E734>
 ## Created: 2018-12-15
 
-function [fingerprints, fingerprints_wnoise] = calculate_fingerprint (M, aps, TProw, TPcolumn, n, Pd0, sigma)
+function [fingerprints, fingerprints_wnoise] = calculate_fingerprint (M, aps, bps, TProw, TPcolumn, n, ble_n, Pd0, ble_Pd0, sigma)
   
-  fingerprints = zeros(1, length(aps));
+  fingerprints = zeros(1, length(aps)+length(bps));
   
   for i=1:length(aps)
     randomAPValue=aps(i);
@@ -33,6 +33,16 @@ function [fingerprints, fingerprints_wnoise] = calculate_fingerprint (M, aps, TP
     location_matrix = [AProw, APcolumn; TProw, TPcolumn];
     rss_value = calculate_rss_value(location_matrix, n, Pd0);
     fingerprints(1, i) = rss_value;
+    
+  end
+  
+  for i=1:length(bps)
+    randomAPValue=bps(i);
+    [BleProw, BlePcolumn]=find(M == randomAPValue);
+    
+    location_matrix = [BleProw, BlePcolumn; TProw, TPcolumn];
+    rss_value = calculate_rss_value(location_matrix, ble_n, ble_Pd0);
+    fingerprints(1, i+length(aps)) = rss_value;
     
   end
   
