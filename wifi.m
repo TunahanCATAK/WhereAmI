@@ -90,7 +90,7 @@ for i=1:max_tp_number
   randomTPValue = tps(i);
   [TProw, TPcolumn]=find(M == randomTPValue);
   
-  [fp, fp_wn] = calculate_fingerprint(M, aps, bps, TProw, TPcolumn, wifi_n, wifi_Pd0, sigma);
+  [fp, fp_wn] = calculate_fingerprint(M, aps, TProw, TPcolumn, wifi_n, wifi_Pd0, sigma);
   FingerprintMatrix(i,:) = fp;
   FingerprintMatrix_wnoise(i,:) = fp_wn;
 end
