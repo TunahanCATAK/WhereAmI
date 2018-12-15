@@ -1,7 +1,20 @@
 function wifi()
 
-%# matrix
-M = rand(10,10);
+
+% definition of global variables:
+row_count = 10; %matrix row count
+column_count = 10; %matrix column count
+max_ap_number = 6; %access point count
+max_tp_number = 10; %test point count
+max_ble_number = 6; %bluetooth beacon count
+sigma = 5/3;
+wifi_n = 3;
+wifi_Pd0 = -30;
+ble_n = 1.35;
+ble_Pd0 = -72.3;
+
+% definition of Matrix to store all area.
+M = rand(row_count, column_count);
 [r c] = size(M);
 
 %# text location and labels
@@ -12,14 +25,15 @@ str = strtrim(cellstr( num2str(M(:),'%.3g') ));
 xticklabels = cellstr( num2str((1:c)','X%d') );
 yticklabels = cellstr( num2str((1:r)','Y%d') );
 
+% TODO: Extract a function -> Define Points
 %# plot access point cells
 %mask = M>0.9;               %# or any other mask
 msize = numel(M);
-aps = M(randperm(msize, 6)); %choose random 6 access points
+aps = M(randperm(msize, max_ap_number)); %choose random # access points
 apmask = ismember( M, aps );
 
 msize2 = numel(M);
-tps = M(randperm(msize2, 10)); %choose random 6 test points
+tps = M(randperm(msize2, max_tp_number)); %choose random # test points
 tpmask2 = ismember( M, tps );
 
 %assign 'a' or 't' or '' for each cell
@@ -36,6 +50,7 @@ for ii = 1:numel(M)
 end
 str = cellstr( char((T(:))) );
 
+#{
 %plot access points
 h = imagesc(1:c, 1:r, ones(size(M)));
 set(h, 'AlphaData', apmask)
@@ -44,7 +59,9 @@ set(h, 'AlphaData', apmask)
 hold  on;
 h2 = imagesc(1:c, 1:r, ones(size(M)));
 set(h2, 'AlphaData', tpmask2)
+#}
 
+#{
 %calculate RSS and store in results array
 results = strings(length(aps)*length(tps),3);
 rowNo = 1;
@@ -63,8 +80,27 @@ text(textX, textY, results(rowNo, 2), 'FontSize',8, 'HorizontalAlignment','cente
 textX = textX+2;
 text(textX, textY, results(rowNo, 3), 'FontSize',8, 'HorizontalAlignment','center');
 textX = textX+2;
+#}
+
+% each row of FingerprintMatrix will be a fingerprint value of related test point. 
+FingerprintMatrix = zeros(max_tp_number, max_ap_number);
+FingerprintMatrix_wnoise = zeros(max_tp_number, max_ap_number);
+
+for i=1:max_tp_number
+  randomTPValue = tps(i);
+  [TProw, TPcolumn]=find(M == randomTPValue);
+  
+  [fp, fp_wn] = calculate_fingerprint(M, aps, bps, TProw, TPcolumn, wifi_n, wifi_Pd0, sigma);
+  FingerprintMatrix(i,:) = fp;
+  FingerprintMatrix_wnoise(i,:) = fp_wn;
+end
 
 
+disp(FingerprintMatrix)
+disp("FingerPrint Matrix With Noise")
+disp(FingerprintMatrix_wnoise)
+
+#{
 for i=1:length(aps)
     randomAPValue=aps(i);
     [AProw, APcolumn]=find(M == randomAPValue);
@@ -77,7 +113,7 @@ for i=1:length(aps)
         [TProw, TPcolumn]=find(M == randomTPValue);
 
         %find euclidean distance
-        X = [AProw, APcolumn;TProw,TPcolumn];
+        X = [AProw, APcolumn; TProw,TPcolumn];
         d = pdist(X,'euclidean');
 
         n = 3;
@@ -127,6 +163,6 @@ line([xv1(:);xv2(:)], [yv1(:);yv2(:)], 'Color','k', 'HandleVisibility','off')
 
 %# plot text
 text(xloc, yloc, str, 'FontSize',8, 'HorizontalAlignment','center');
-
+#}
 
 end  
