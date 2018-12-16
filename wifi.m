@@ -86,6 +86,17 @@ text(textX, textY, results(rowNo, 3), 'FontSize',8, 'HorizontalAlignment','cente
 textX = textX+2;
 #}
 
+% offline db should be created for KNN algorithm. 
+db = offline_training_rss_values(M, aps, bps, row_count, column_count, wifi_n, ble_n, wifi_Pd0, ble_Pd0, sigma);
+
+% displaying offline database.
+% TODO: Commented out or use a compiler switch for all trace lines. 
+disp("--Offline Database--")
+disp(db)
+
+% saving offline db in csv format. 
+csvwrite('offline_db', db);
+
 % each row of FingerprintMatrix will be a fingerprint value of related test point. 
 FingerprintMatrix = zeros(max_tp_number, max_ap_number + max_ble_number);
 FingerprintMatrix_wnoise = zeros(max_tp_number, max_ap_number + max_ble_number);
@@ -97,6 +108,10 @@ for i=1:max_tp_number
   [fp, fp_wn] = calculate_fingerprint(M, aps, bps, TProw, TPcolumn, wifi_n, ble_n, wifi_Pd0, ble_Pd0, sigma);
   FingerprintMatrix(i,:) = fp;
   FingerprintMatrix_wnoise(i,:) = fp_wn;
+  
+  % location prediction algorithm should be run in here. 
+  % calculate and sum error. (predX, predY; TProw, TPcolumn)
+  
 end
 
 
