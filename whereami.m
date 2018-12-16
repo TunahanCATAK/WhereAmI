@@ -1,4 +1,4 @@
-function wifi()
+function whereami()
 
 
 % definition of global variables:
@@ -54,7 +54,7 @@ for ii = 1:numel(M)
 end
 str = cellstr( char((T(:))) );
 
-#{
+%#{
 %plot access points
 h = imagesc(1:c, 1:r, ones(size(M)));
 set(h, 'AlphaData', apmask)
@@ -63,9 +63,9 @@ set(h, 'AlphaData', apmask)
 hold  on;
 h2 = imagesc(1:c, 1:r, ones(size(M)));
 set(h2, 'AlphaData', tpmask2)
-#}
+%#}
 
-#{
+%#{
 %calculate RSS and store in results array
 results = strings(length(aps)*length(tps),3);
 rowNo = 1;
@@ -84,7 +84,7 @@ text(textX, textY, results(rowNo, 2), 'FontSize',8, 'HorizontalAlignment','cente
 textX = textX+2;
 text(textX, textY, results(rowNo, 3), 'FontSize',8, 'HorizontalAlignment','center');
 textX = textX+2;
-#}
+%#}
 
 % offline db should be created for KNN algorithm. 
 db = offline_training_rss_values(M, aps, bps, row_count, column_count, wifi_n, ble_n, wifi_Pd0, ble_Pd0, sigma);
@@ -119,7 +119,7 @@ end
 disp("Calculated FingerPrinting Matrix With Noise: ")
 disp(FingerprintMatrix_wnoise)
 
-#{
+%#{
 for i=1:length(aps)
     randomAPValue=aps(i);
     [AProw, APcolumn]=find(M == randomAPValue);
@@ -182,6 +182,6 @@ line([xv1(:);xv2(:)], [yv1(:);yv2(:)], 'Color','k', 'HandleVisibility','off')
 
 %# plot text
 text(xloc, yloc, str, 'FontSize',8, 'HorizontalAlignment','center');
-#}
+%#}
 
 end  
