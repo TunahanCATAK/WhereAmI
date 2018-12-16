@@ -87,7 +87,7 @@ textX = textX+2;
 %}
 
 % offline db should be created for KNN algorithm. 
-db = offline_training_rss_values(M, aps, bps, row_count, column_count, wifi_n, ble_n, wifi_Pd0, ble_Pd0, sigma);
+db = offline_training_rss_values(M, aps, bps, row_count, column_count, wifi_n, ble_n, wifi_Pd0, ble_Pd0);
 
 % displaying offline database.
 % TODO: Commented out or use a compiler switch for all trace lines. 

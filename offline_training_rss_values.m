@@ -45,4 +45,4 @@ function [offline_fingerprints] = offline_training_rss_values (M, aps, bps, row_
   end
     
   
-endfunction
+end
