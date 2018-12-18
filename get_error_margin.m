@@ -4,11 +4,7 @@ function error_margin = get_error_margin(original, predicted)
 
     X = [original; predicted];
     error_margin = pdist(X,'euclidean');
-<<<<<<< Updated upstream
     disp(['Error margin is ' , num2str(error_margin)]);
-=======
-    % disp("Error margin is " + error_margin);
->>>>>>> Stashed changes
     
 end
 
