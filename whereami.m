@@ -112,12 +112,16 @@ for i=1:max_tp_number
   % location prediction algorithm should be run in here. 
   % calculate and sum error. (predX, predY; TProw, TPcolumn)
   
+  closest_location = predict_location(db, fp_wn);
+  disp(TProw +", " + TPcolumn + " position predicts :: " + closest_location(1) + ", " + closest_location(2));
+  get_error_margin([TProw, TPcolumn], closest_location);
+  
 end
 
 
-% disp(FingerprintMatrix)
-disp("Calculated FingerPrinting Matrix With Noise: ")
-disp(FingerprintMatrix_wnoise)
+%disp(FingerprintMatrix)
+%disp("Calculated FingerPrinting Matrix With Noise: ")
+%disp(FingerprintMatrix_wnoise)
 
 %{
 for i=1:length(aps)

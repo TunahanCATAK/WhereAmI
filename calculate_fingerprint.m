@@ -46,7 +46,6 @@ function [fingerprints, fingerprints_wnoise] = calculate_fingerprint (M, aps, bp
     
   end
   
-  % TODO: add gaussian noise to the fingerprint vector. 
   fingerprints_wnoise = fingerprints + sqrt(sigma) * randn(size(fingerprints));
   
 end
