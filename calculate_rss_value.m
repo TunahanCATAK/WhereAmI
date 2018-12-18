@@ -24,11 +24,12 @@
 
 
 function rss_value = calculate_rss_value (location_matrix, n, Pd0)
-  pkg load statistics;
+ % pkg load statistics;
 
   d = pdist(location_matrix);
   if (d == 0)
     d = 0.01;
+  end
   rss_value = Pd0 - (10.*n.*log10(d));
 
   

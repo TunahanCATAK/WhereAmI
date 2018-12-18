@@ -2,10 +2,10 @@ function whereami()
 
 
 % definition of global variables:
-row_count = 10; %matrix row count
-column_count = 10; %matrix column count
+row_count = 20; %matrix row count
+column_count = 20; %matrix column count
 max_ap_number = 6; %access point count
-max_tp_number = 10; %test point count
+max_tp_number = 50; %test point count
 max_ble_number = 6; %bluetooth beacon count
 sigma = 5/3;
 wifi_n = 3;
@@ -117,11 +117,11 @@ for i=1:max_tp_number
   
   closest_location = predict_location(db, fp_wn);
   disp([num2str(TProw) ,', ' , num2str(TPcolumn) , ' position predicts :: ' , num2str(closest_location(1)) , ', ' , num2str(closest_location(2))]);
-  total_error += get_error_margin([TProw, TPcolumn], closest_location);
+  total_error = total_error + get_error_margin([TProw, TPcolumn], closest_location);
   
 end
 
-disp(total_error)
+disp(['Total error ', num2str(total_error)]);
 
 
 %disp(FingerprintMatrix)
