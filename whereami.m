@@ -113,7 +113,7 @@ for i=1:max_tp_number
   % calculate and sum error. (predX, predY; TProw, TPcolumn)
   
   closest_location = predict_location(db, fp_wn);
-  disp(TProw +", " + TPcolumn + " position predicts :: " + closest_location(1) + ", " + closest_location(2));
+  disp([num2str(TProw) ,', ' , num2str(TPcolumn) , ' position predicts :: ' , num2str(closest_location(1)) , ', ' , num2str(closest_location(2))]);
   get_error_margin([TProw, TPcolumn], closest_location);
   
 end
