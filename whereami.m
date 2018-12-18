@@ -101,6 +101,9 @@ csvwrite('offline_db', db);
 FingerprintMatrix = zeros(max_tp_number, max_ap_number + max_ble_number);
 FingerprintMatrix_wnoise = zeros(max_tp_number, max_ap_number + max_ble_number);
 
+% total prediction error
+total_error = 0;
+
 for i=1:max_tp_number
   randomTPValue = tps(i);
   [TProw, TPcolumn]=find(M == randomTPValue);
@@ -114,9 +117,11 @@ for i=1:max_tp_number
   
   closest_location = predict_location(db, fp_wn);
   disp([num2str(TProw) ,', ' , num2str(TPcolumn) , ' position predicts :: ' , num2str(closest_location(1)) , ', ' , num2str(closest_location(2))]);
-  get_error_margin([TProw, TPcolumn], closest_location);
+  total_error += get_error_margin([TProw, TPcolumn], closest_location);
   
 end
+
+disp(total_error)
 
 
 %disp(FingerprintMatrix)
