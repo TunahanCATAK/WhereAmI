@@ -43,6 +43,4 @@ function [offline_fingerprints] = offline_training_rss_values (M, aps, bps, row_
       count = count+1;
     end  
   end
-    
-  
 end
