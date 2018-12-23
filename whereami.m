@@ -1,12 +1,13 @@
-function whereami()
+function total_error = whereami(row_count, column_count, max_ap_number, max_ble_number, max_tp_number )
 
 
 % definition of global variables:
-row_count = 20; %matrix row count
-column_count = 20; %matrix column count
-max_ap_number = 6; %access point count
-max_tp_number = 50; %test point count
-max_ble_number = 6; %bluetooth beacon count
+% row_count = 20; %matrix row count
+% column_count = 20; %matrix column count
+% max_ap_number = 6; %access point count
+% max_tp_number = 50; %test point count
+% max_ble_number = 6; %bluetooth beacon count
+
 sigma = 5/3;
 wifi_n = 3;
 wifi_Pd0 = -30;
@@ -91,8 +92,8 @@ db = offline_training_rss_values(M, aps, bps, row_count, column_count, wifi_n, b
 
 % displaying offline database.
 % TODO: Commented out or use a compiler switch for all trace lines. 
-disp("--Offline Database--")
-disp(db)
+%%disp("--Offline Database--")
+%%disp(db)
 
 % saving offline db in csv format. 
 csvwrite('offline_db', db);
@@ -116,11 +117,12 @@ for i=1:max_tp_number
   % calculate and sum error. (predX, predY; TProw, TPcolumn)
   
   closest_location = predict_location(db, fp_wn);
-  disp([num2str(TProw) ,', ' , num2str(TPcolumn) , ' position predicts :: ' , num2str(closest_location(1)) , ', ' , num2str(closest_location(2))]);
+ %aaa disp([num2str(TProw) ,', ' , num2str(TPcolumn) , ' position predicts :: ' , num2str(closest_location(1)) , ', ' , num2str(closest_location(2))]);
   total_error = total_error + get_error_margin([TProw, TPcolumn], closest_location);
   
 end
-
+total_error = total_error / max_tp_number;
+disp(num2str(row_count));
 disp(['Total error ', num2str(total_error)]);
 
 
